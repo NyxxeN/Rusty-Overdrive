@@ -1,0 +1,15 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Pruebas del motor DSP
+        run: node tests/run.js
+      - name: Armar el HTML
+        run: node build.js
+      - name: El HTML publicado coincide con el código fuente
+        run: git diff --exit-code dist docs/index.html

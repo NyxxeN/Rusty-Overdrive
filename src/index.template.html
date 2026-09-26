@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Rusty Overdrive Corrector: corrector y masterizador de audio local, en el navegador. Sin subir nada a ningún servidor.">
+<title>Rusty Overdrive Corrector</title>
+<style>
+/*__CSS__*/
+</style>
+</head>
+<body>
+<div id="drop">SOLTÁ EL AUDIO ACÁ</div>
+<header class="top">
+  <svg id="skyline" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <div class="sign" title="Rusty Overdrive Corrector">
+    <div class="sign-top"><span class="rust"><b>R</b>USTY</span><span class="od">OVERDRIVE</span></div>
+    <div class="sign-sub">CORRECTOR<i>_</i></div>
+  </div>
+  <div class="sign2" aria-hidden="true"><b>錆</b><span>オーバードライブ</span></div>
+  <div class="tagbar"><span class="chip" id="signLive">SIN SEÑAL</span><span class="chip cy">AUDIO LOCAL · 0 BYTES A LA NUBE</span></div>
+  <div id="status"></div>
+  <div id="fileWrap">
+    <div id="fileInfo">Abrí o arrastrá un WAV / MP3 / FLAC</div>
+    <button id="btnOpen" class="primary">Abrir audio…</button>
+    <input type="file" id="file" accept="audio/*,.wav,.mp3,.flac,.ogg,.m4a,.aac" hidden>
+  </div>
+</header>
+<div id="progress"><i></i></div>
+<main>
+  <section id="viewer">
+    <div class="transport">
+      <button id="bPlay" title="Espacio" disabled>▶ Play</button>
+      <button id="bStop" title="Inicio" disabled>■</button>
+      <div class="time" id="time">0:00.0 / 0:00.0</div>
+      <div class="seg" id="segMon" title="Teclas 1 / 2 / 3 / 4">
+        <button data-v="orig" class="on">Original</button><button data-v="proc">Procesado</button><button data-v="delta" class="mg" title="Diferencia entre original y procesado con el nivel igualado, amplificada automáticamente">Lo que se quita</button><button data-v="live" class="lv" title="Escuchás el original pasando por el EQ de corrección, en tiempo real, mientras movés las bolitas">EQ en vivo</button>
+      </div>
+      <div class="seg" id="segCh" title="Tecla M">
+        <button data-v="st" class="on">Estéreo</button><button data-v="mono">Mono</button><button data-v="L">L</button><button data-v="R">R</button>
+      </div>
+      <span class="lbl">Vol</span><input type="range" id="vol" min="0" max="100" value="80" style="width:90px">
+      <label class="chk" title="Compensa la diferencia de LUFS entre original y procesado para no dejarte engañar por el volumen"><input type="checkbox" id="chkMatch" checked>Igualar volumen</label>
+      <span class="lbl" id="lblDG">Δ 0 dB</span><input type="range" id="dgain" min="-12" max="18" value="0" style="width:70px" title="Volumen de «lo que se quita». Ya se amplifica solo (pico a −14 dBFS); este control ajusta desde ahí">
+      <label class="chk" title="Shift + arrastrar sobre la onda define la región"><input type="checkbox" id="chkLoop">Bucle</label>
+    </div>
+    <div class="cv" id="cvWave"><canvas id="wave" data-h="150"></canvas><div class="tag" id="tagWave"></div><div class="ph"></div><div class="lp"></div></div>
+    <div class="cv" id="cvHF"><canvas id="hf" data-h="86"></canvas><div class="tag">Piso agudo &gt; 6,5 kHz · gris = original · cian = procesado · línea gruesa = entre golpes</div><div class="ph"></div></div>
+    <div class="cv" id="cvSpec"><canvas id="spec" data-h="230"></canvas><div class="tag" id="tagSpec">Espectrograma</div><div class="ph"></div>
+      <div style="position:absolute;right:10px;top:4px;display:flex;gap:6px;align-items:center;font-size:11px;color:var(--dim)">
+        <select id="specScale"><option value="log">Frecuencia log</option><option value="lin">Frecuencia lineal</option></select>
+        Contraste <input type="range" id="specC" min="0" max="100" value="55" style="width:80px"></div></div>
+    <div class="cv" id="cvAna"><canvas id="ana" data-h="150"></canvas><div class="tag">Analizador en vivo</div></div>
+  </section>
+  <aside id="panel">
+    <div class="tabs" id="tabs"><button data-t="fix" class="on">Corregir</button><button data-t="master">Master</button><button data-t="exp">Exportar</button><button data-t="help">Ayuda</button></div>
+    <div id="tabBody"></div>
+    <div class="bar">
+      <button id="bProc" class="primary" disabled>Procesar</button>
+      <label class="chk"><input type="checkbox" id="chkAuto">Auto</label>
+      <select id="preset" style="max-width:215px"><option value="">Preajustes…</option>
+        <optgroup label="Limpieza de agudos">
+          <option value="clean-aggr">Estándar agresivo</option>
+          <option value="clean-soft">Suave (menos sensibilidad)</option>
+        </optgroup>
+        <optgroup label="Master por estilo" id="styleOpts"></optgroup>
+        <optgroup label="Restablecer"><option value="clear">Todo apagado</option></optgroup>
+      </select>
+    </div>
+  </aside>
+</main>
+<script id="common-src" type="text/plain">
+/*__COMMON__*/
+</script>
+<script id="dsp-src" type="text/plain">
+/*__DSP__*/
+</script>
+<script id="lame-src" type="text/plain">
+/*__LAME__*/
+</script>
+<script>
+/*__UI__*/
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Manual de usuario
+    url: https://github.com/NyxxeN/Rusty-Overdrive/blob/main/docs/MANUAL.md
+    about: Antes de abrir un issue, revisá el manual (flujos paso a paso y problemas frecuentes).

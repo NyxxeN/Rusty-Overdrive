@@ -1,0 +1,28 @@
+name: Error o artefacto de audio
+description: Algo falla, se traba o suena mal.
+title: "[Error] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: que
+    attributes:
+      label: ¿Qué pasó?
+      description: Qué hiciste, qué esperabas y qué obtuviste. Si es un problema de sonido, describí cómo suena (siseo, burbujeo, agudos apagados, distorsión…).
+    validations: { required: true }
+  - type: textarea
+    id: params
+    attributes:
+      label: Parámetros usados
+      description: "Podés copiar tus ajustes: en la consola del navegador (F12) ejecutá `localStorage['roc.params.v1']` y pegá el resultado. O adjuntá capturas."
+    validations: { required: false }
+  - type: input
+    id: material
+    attributes:
+      label: Material
+      description: Género, fuente (grabación propia, generado por IA, etc.), duración, formato. No adjuntes audio protegido por derechos de autor.
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador y sistema
+      placeholder: Chrome 128 en Windows 11
+    validations: { required: true }

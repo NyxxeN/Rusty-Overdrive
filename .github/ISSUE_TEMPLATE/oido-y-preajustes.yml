@@ -1,0 +1,26 @@
+name: Oído y preajustes de estilo
+description: Probaste un estilo de master en tu género y querés contar qué funciona y qué no.
+title: "[Preajuste] "
+labels: ["preajustes", "ayuda-de-oido"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Los preajustes por estilo son **puntos de partida** basados en datos publicados y criterio habitual. La herramienta no puede «oír»: necesitamos oyentes de cada género.
+  - type: dropdown
+    id: estilo
+    attributes:
+      label: Estilo
+      options: [Estándar plataformas, EDM / electrónica, Rock, Heavy metal, Pop, Clásica / orquestal, Jazz, Folk / acústico, Otro]
+    validations: { required: true }
+  - type: textarea
+    id: que
+    attributes:
+      label: ¿Qué escuchaste?
+      description: Comparaste con referencias comerciales? ¿Faltó o sobró algo (graves, medios bajos, presencia, aire, compresión, volumen)?
+    validations: { required: true }
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: ¿Qué cambiarías? (opcional)
+      description: EQ (frecuencia, ganancia, Q), compresión, LUFS objetivo, techo. Si tenés datos medidos de masters de referencia, mejor.

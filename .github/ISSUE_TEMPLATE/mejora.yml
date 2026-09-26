@@ -1,0 +1,34 @@
+name: Mejora o duda
+description: Proponé una mejora, una función nueva o contá qué no se entiende del manual.
+title: "[Mejora] "
+labels: ["mejora"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por ayudar! Este proyecto busca acercarse a una corrección de audio profesional entre muchas manos: se necesita código, pero también **oído y oficio**.
+  - type: textarea
+    id: que
+    attributes:
+      label: ¿Qué te gustaría que hiciera o cambiara?
+      description: Contá el problema o la idea con tus palabras (no hace falta saber programar).
+    validations: { required: true }
+  - type: textarea
+    id: por-que
+    attributes:
+      label: ¿Para qué lo necesitás? (tu flujo de trabajo)
+    validations: { required: false }
+  - type: dropdown
+    id: area
+    attributes:
+      label: ¿En qué parte de la herramienta?
+      options: [EQ (bolitas / escucha en vivo), Neon Scalpel (EQ dinámico), Ruido / de-esser / colas agudas, Master por estilo / referencia, Compresor / limitador / LUFS, Exportación (MP3/WAV), Interfaz / diseño, Manual / documentación, Idioma / traducción, Otra]
+    validations: { required: true }
+  - type: checkboxes
+    id: ayuda
+    attributes:
+      label: ¿Podés ayudar a implementarlo?
+      options:
+        - label: Puedo escribir código
+        - label: Puedo probarlo y opinar con el oído
+        - label: Puedo aportar datos o material de referencia

@@ -1,0 +1,14 @@
+{
+  "name": "rusty-overdrive-corrector",
+  "version": "0.1.0",
+  "description": "Corrector y masterizador de audio local en el navegador: EQ con bolitas, EQ dinámico, reducción de ruido, limitador true-peak, medidor LUFS y exportación MP3/WAV.",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "node build.js",
+    "test": "node tests/run.js",
+    "test:e2e": "node tests/e2e/e2e.js && node tests/e2e/live-eq.js"
+  },
+  "engines": { "node": ">=18" },
+  "devDependencies": { "playwright-core": "^1.45.0" }
+}
