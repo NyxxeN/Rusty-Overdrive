@@ -22,7 +22,9 @@ function card(title, help, obj, ctrls, extra) {
 var TYPES = [['hp', 'Pasa-altos'], ['lowshelf', 'Shelf grave'], ['peak', 'Campana'], ['highshelf', 'Shelf agudo'], ['lp', 'Pasa-bajos'], ['notch', 'Notch']];
 function eqCard(key, title, help, extra) {
   var c = el('div', 'card'), h = el('h3', '', '<span>' + title + '</span>'), body = el('div', 'body');
-  h.appendChild(sw(S[key], 'on', function (v) { c.classList.toggle('off', !v); if (key === 'eq') updateLiveEQ(); if (EQED[key]) EQED[key].draw(); })); REFRESH.push(function () { c.classList.toggle('off', !S[key].on); });
+  /* Cualquier cambio en el EQ de corrección (sliders, tipo, encendido, bolitas) pasa solo a la escucha en vivo: así se oye sin procesar */
+  function goLive() { if (key === 'eq' && A.orig && UI.mon !== 'live') setLiveMode(UI.liveMode === 'solo' ? 'result' : UI.liveMode); }
+  h.appendChild(sw(S[key], 'on', function (v) { c.classList.toggle('off', !v); if (key === 'eq') { goLive(); updateLiveEQ(); } if (EQED[key]) EQED[key].draw(); })); REFRESH.push(function () { c.classList.toggle('off', !S[key].on); });
   h.addEventListener('click', function (e) { if (e.target.closest('.sw')) return; body.classList.toggle('hidden'); });
   body.appendChild(el('p', 'help', help));
   if (key === 'eq') {
@@ -35,7 +37,7 @@ function eqCard(key, title, help, extra) {
   S[key].bands.forEach(function (b, i) {
     var row = el('div', 'eqrow'), dot = el('div', 'dot'); dot.style.color = BAND_COL[i]; dot.style.background = BAND_COL[i];
     var oi = el('input'), on = el('label', 'sw'), ob = el('i'); oi.type = 'checkbox'; on.appendChild(oi); on.appendChild(ob);
-    oi.addEventListener('change', function () { b.on = oi.checked; if (b.on) S[key].on = true; markDirty(); if (key === 'eq') updateLiveEQ(); ed.draw(); }); REFRESH.push(function () { oi.checked = b.on; });
+    oi.addEventListener('change', function () { b.on = oi.checked; if (b.on) S[key].on = true; markDirty(); if (key === 'eq') { goLive(); updateLiveEQ(); } ed.draw(); }); REFRESH.push(function () { oi.checked = b.on; });
     var sel = el('select'); TYPES.forEach(function (t) { var o = el('option', '', t[1]); o.value = t[0]; sel.appendChild(o); });
     var slopeSel = el('select'); [12, 24].forEach(function (s) { var o = el('option', '', s + ' dB/oct'); o.value = s; slopeSel.appendChild(o); });
     var soloBtn = null; if (key === 'eq') { soloBtn = el('button', 'solo', 'Escuchar'); soloBtn.title = 'Escuchás solo esa zona (filtro pasa-banda) para encontrar la frecuencia molesta'; soloBtn.addEventListener('click', function () { b.on = true; S.eq.on = true; setSolo(i); }); }
@@ -43,11 +45,11 @@ function eqCard(key, title, help, extra) {
     var sub = el('div', 'sub'), minis = [];
     function mini(label, k, min, max, step, unit, log) { var m = el('div', 'mini'), sp = el('span', '', label + ' <b></b>'), inp = el('input'); inp.type = 'range'; if (log) { inp.min = 0; inp.max = 1000; } else { inp.min = min; inp.max = max; inp.step = step; }
       function r() { inp.value = log ? Math.round(Math.log(b[k] / min) / Math.log(max / min) * 1000) : b[k]; sp.lastChild.textContent = fmtVal(b[k], unit, step); }
-      inp.addEventListener('input', function () { var v = log ? min * Math.exp(inp.value / 1000 * Math.log(max / min)) : +inp.value; if (log) v = v > 2000 ? Math.round(v / 50) * 50 : (v > 400 ? Math.round(v / 10) * 10 : Math.round(v)); b[k] = v; sp.lastChild.textContent = fmtVal(v, unit, step); if (!S[key].on && b.on) S[key].on = true; markDirty(); if (key === 'eq') updateLiveEQ(); ed.draw(); });
+      inp.addEventListener('input', function () { var v = log ? min * Math.exp(inp.value / 1000 * Math.log(max / min)) : +inp.value; if (log) v = v > 2000 ? Math.round(v / 50) * 50 : (v > 400 ? Math.round(v / 10) * 10 : Math.round(v)); b[k] = v; sp.lastChild.textContent = fmtVal(v, unit, step); if (!S[key].on && b.on) S[key].on = true; markDirty(); if (key === 'eq') { goLive(); updateLiveEQ(); } ed.draw(); });
       REFRESH.push(r); r(); m.appendChild(sp); m.appendChild(inp); minis.push([k, m]); return m; }
     sub.appendChild(mini('Frec', 'f', 20, 20000, 1, 'Hz', true)); sub.appendChild(mini('Gan', 'g', -18, 18, 0.1, 'dB')); sub.appendChild(mini('Q', 'q', 0.3, 10, 0.05, ''));
     function vis() { sel.value = b.type; slopeSel.value = b.slope; var isF = b.type === 'hp' || b.type === 'lp', isSh = b.type === 'lowshelf' || b.type === 'highshelf'; slopeSel.style.display = isF ? '' : 'none'; minis.forEach(function (x) { x[1].style.visibility = ((x[0] === 'g' && (isF || b.type === 'notch')) || (x[0] === 'q' && (isF || isSh))) ? 'hidden' : 'visible'; }); if (soloBtn) soloBtn.classList.toggle('on', live.solo === i); }
-    sel.addEventListener('change', function () { b.type = sel.value; vis(); markDirty(); if (key === 'eq') updateLiveEQ(); ed.draw(); }); slopeSel.addEventListener('change', function () { b.slope = +slopeSel.value; markDirty(); if (key === 'eq') updateLiveEQ(); });
+    sel.addEventListener('change', function () { b.type = sel.value; vis(); markDirty(); if (key === 'eq') { goLive(); updateLiveEQ(); } ed.draw(); }); slopeSel.addEventListener('change', function () { b.slope = +slopeSel.value; markDirty(); if (key === 'eq') { goLive(); updateLiveEQ(); } });
     REFRESH.push(vis); row.appendChild(dot); row.appendChild(top); row.appendChild(sub); row.addEventListener('mousedown', function () { ed.select(i); }); body.appendChild(row);
   });
   REFRESH.push(function () { ed.draw(); });

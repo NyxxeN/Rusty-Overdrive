@@ -29,5 +29,11 @@ const ok = (n, c, d) => { console.log((c ? '  ok    ' : '  FALLA ') + n + (d ? '
     return p.evaluate(() => { const an = window.__app.getAnalyser(), d = new Float32Array(an.frequencyBinCount); an.getFloatFrequencyData(d); const hz = 48000 / an.fftSize; const avg = (f0, f1) => { let s = 0, c = 0; for (let k = Math.floor(f0 / hz); k <= Math.ceil(f1 / hz); k++) { s += Math.pow(10, d[k] / 10); c++; } return 10 * Math.log10(s / c); }; return avg(2950, 3050) - Math.max(avg(450, 550), avg(9500, 10500)); }); }
   const res = await medir('result'), del = await medir('delta'), sol = await medir('solo');
   ok('Con EQ: hueco de ≈ −9 dB a 3 kHz', res < -6 && res > -12, res.toFixed(1) + ' dB'); ok('Solo lo que quita: la energía se concentra en 3 kHz', del > 10, '+' + del.toFixed(1) + ' dB sobre el resto'); ok('Solo la banda: zona aislada', sol > 10, '+' + sol.toFixed(1) + ' dB sobre el resto');
+  // desde «Procesado», mover un slider del EQ debe llevar solo a la escucha en vivo (antes había que reprocesar para oír el cambio)
+  await p.evaluate(() => window.__app.setMonitor('orig')); await p.evaluate(async () => { await window.__app.processNow(); }); await p.evaluate(() => window.__app.setMonitor('proc'));
+  const before = await p.evaluate(() => window.__app.UI.mon);
+  await p.evaluate(() => { const r = document.querySelectorAll('#tabBody .eqrow')[2].querySelectorAll('input[type=range]')[1]; r.value = 300; r.dispatchEvent(new Event('input', { bubbles: true })); });
+  const after = await p.evaluate(() => window.__app.UI.mon), node = await p.evaluate(() => window.__app.live.nodes[4].gain.value);
+  ok('mover un slider desde «Procesado» pasa a EQ en vivo', before === 'proc' && after === 'live', before + ' → ' + after); ok('el cambio del slider suena de inmediato (filtro en vivo actualizado)', Math.abs(node) > 0.1, 'ganancia del nodo ' + node.toFixed(2) + ' dB');
   ok('sin errores de consola', errors.length === 0, errors.join(' | ')); await browser.close(); console.log(fails ? '\n' + fails + ' con fallas' : '\ntodo correcto'); process.exit(fails ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });

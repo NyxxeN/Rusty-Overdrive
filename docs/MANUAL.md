@@ -104,6 +104,7 @@ Notas:
 | Situación | Qué hacer |
 |---|---|
 | «Lo que se quita» no suena | Tocá **Procesar** primero. Si la barra dice «la diferencia es prácticamente nula», con esos ajustes casi no se cambia nada. Con el control **Δ** podés subirlo aún más |
+| Muevo el EQ y no oigo el cambio | Solo el **EQ de corrección** se oye en vivo y solo en el monitor **EQ en vivo** (el original pasando por el EQ). Desde la versión 0.1.1, cualquier cambio en ese EQ (bolitas, sliders, tipo, encendido) te lleva solo a ese monitor. El EQ de master y los demás módulos (ruido, de-esser, colas, Neon Scalpel) se oyen después de **Procesar** |
 | Quiero oír lo que quita el EQ **sin procesar** | Pestaña Corregir → EQ de corrección → **Solo lo que quita** (ver Flujo A) |
 | Procesar tarda | Un tema de 5 min tarda unos 20 s la primera vez; si solo cambiás el master, unos segundos (las etapas de corrección se guardan) |
 | El resultado suena «burbujeante» o apagado | Bajá la *Intensidad* o la *Reducción máx.* del ruido, de-esser o colas agudas |
