@@ -33,7 +33,7 @@ git push -u origin main
 - **Licencia:** el proyecto usa MIT (archivo `LICENSE`). Si preferís otra, cambiala ahora. El codificador MP3 de `vendor/` es LGPL-3.0 y mantiene su propia licencia (ver `THIRD_PARTY_NOTICES.md`).
 - **README:** cambiá el nombre del autor o agregá enlaces (tu web, tu música) donde quieras.
 - **Capturas:** las de `docs/img/` se hicieron con un audio sintético; podés reemplazarlas por otras.
-- **Issues y plantillas:** en *Settings → General → Features* activá *Issues* y, si querés, *Discussions* para conversar sobre oído y preajustes.
+- **Issues y plantillas:** en *Settings → General → Features* asegurate de que *Issues* esté activado y, si querés, activá *Discussions* para conversar sobre oído y preajustes. Las plantillas no requieren etiquetas; si más adelante querés ordenarlas, se crean en la pestaña *Issues → Labels*.
 - **Release:** en *Releases → Draft a new release* adjuntá `dist/rusty-overdrive-corrector.html` para que la descarguen directo.
 
 ## 5. Encontrar especialistas

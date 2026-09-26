@@ -1,7 +1,6 @@
 name: Oído y preajustes de estilo
 description: Probaste un estilo de master en tu género y querés contar qué funciona y qué no.
 title: "[Preajuste] "
-labels: ["preajustes", "ayuda-de-oido"]
 body:
   - type: markdown
     attributes:

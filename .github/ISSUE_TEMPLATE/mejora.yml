@@ -1,7 +1,6 @@
 name: Mejora o duda
 description: Proponé una mejora, una función nueva o contá qué no se entiende del manual.
 title: "[Mejora] "
-labels: ["mejora"]
 body:
   - type: markdown
     attributes:

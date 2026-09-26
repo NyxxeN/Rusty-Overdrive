@@ -1,7 +1,6 @@
 name: Error o artefacto de audio
 description: Algo falla, se traba o suena mal.
 title: "[Error] "
-labels: ["bug"]
 body:
   - type: textarea
     id: que
